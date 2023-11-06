@@ -2,6 +2,10 @@
 Access HCI layer of bluetooth on the Pico Pi W
 
 
+Micropython includes a Pico SDK here:
+```micropython/lib/pcio-sdk```
+
+You an delete it an replace with SDK direct from raspberry pi if you want.   
 
 
 ```
