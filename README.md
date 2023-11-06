@@ -13,5 +13,9 @@ make BOARD=RPI_PICO_W submodules
 make BOARD=RPI_PICO_W clean
 make BOARD=RPI_PICO_W
 
-Copy *.uf2 to somewhere where you can drag to the Pico W
+Copy *.uf2 to somewhere where you can drag to the Pico W, like:
+
+cp build-RPI_PICO_W/firmware.uf2 /mnt/c/users/paul/Desktop
+
+
 ```
