@@ -7,7 +7,10 @@ Micropython includes a Pico SDK here:
 
 You an delete it an replace with SDK direct from raspberry pi if you want.   
 
-The driver for CYW43xxxx is here: micropython/lib/pico-sdk/src/rp2_common/pico_cyw43_driver    
+The driver for CYW43xxxx is here
+```micropython/lib/pico-sdk/src/rp2_common/pico_cyw43_driver```
+and the fun happens in here
+```btstack_hci_transport_cyw43.c```
 
 
 ```
