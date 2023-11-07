@@ -26,7 +26,7 @@ b'\x04\x0e\x0c\x05\x01\x10\x00\x08\x0e\x03\x08`\x00\x0e\x03'
 # References   
 https://retrobrewcomputers.org/n8vem-pbwiki-archive/0/38301400/48860991/60678324/Part_E2_SDIO_Bluetooth_Type_A_Simplified_V1.00_060403TC.pdf
  
-# When in WSL
+# How to build in WSL
 ```
 sudo bash
 apt update
