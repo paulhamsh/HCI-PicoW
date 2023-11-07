@@ -2,7 +2,7 @@
 add_library(usermod_hci_pico_w INTERFACE)
 
 # Add our source files to the lib
-target_sources(usermod_hci_pico_pi INTERFACE
+target_sources(usermod_hci_pico_w INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/hci_pico_w.c
 )
 
