@@ -29,13 +29,15 @@ STATIC mp_obj_t HCI_receive_raw(mp_obj_t self_in ) {
 
     // if buffer is empty do next read, otherwise use data from last readable()
 
-    if (buf_len ==0) {
+    if (buf_len == 0) {
         ret = cyw43_bluetooth_hci_read(buf, BUF_MAX, &len);
         if (ret) len = 0;
-        buf_len = len;
     }
+    else 
+        len = buf_len;
 
-    return mp_obj_new_bytes(buf, buf_len);
+    buf_len = 0;
+    return mp_obj_new_bytes(buf, len);
 }
 
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(HCI_receive_raw_obj, HCI_receive_raw);
