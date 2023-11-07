@@ -1,11 +1,11 @@
 # HCI-PicoW
 Access HCI layer of bluetooth on the Pico Pi W
 
-Micropython C module to access the VHCI layer in the ESP 32.   
-Creates a module HCI_ESP32   
+Micropython C module to access the VHCI layer in the Pico Pi W.   
+Creates a module HCI_PicoW   
 
 ```
->>> from HCI_ESP32 import *
+>>> from HCI_PicoW import *
 >>> bt = HCI()
 >>> bt.readable()
 False
@@ -24,13 +24,7 @@ b'\x04\x0e\x0c\x05\x01\x10\x00\x08\x0e\x03\x08`\x00\x0e\x03'
 
 
 # References   
-Micropython instructions: https://github.com/micropython/micropython/blob/master/ports/esp32/README.md    
-usbipd-win instructions: https://devblogs.microsoft.com/commandline/connecting-usb-devices-to-wsl/
-
-
-# Build instructions (WSL on Windows)
-Install USBIPD (provide access to ESP32 over USB into WSL) from  https://github.com/dorssel/usbipd-win/releases    
-Presumes WSL already active on your Windows machine
+???
  
 # When in WSL
 
