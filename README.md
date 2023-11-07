@@ -27,7 +27,7 @@ b'\x04\x0e\x0c\x05\x01\x10\x00\x08\x0e\x03\x08`\x00\x0e\x03'
 ???
  
 # When in WSL
-
+```
 sudo bash
 apt update
 apt upgrade
