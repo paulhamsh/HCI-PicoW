@@ -2,6 +2,7 @@
 #include "py/objstr.h"
 #include "py/obj.h"
 
+#include "cyw43.h"
 
 // Data received callback
 
