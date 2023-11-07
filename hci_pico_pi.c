@@ -23,16 +23,7 @@ static int host_recv_pkt_cb(uint8_t *data, uint16_t len) {
 }
 
 
-static void host_send_pkt_available_cb(void) {
-    // can do things now
-    //printf("Can send now\n");
-}
 
-
-static const esp_vhci_host_callback_t vhci_host_cb = {
-    .notify_host_send_available = host_send_pkt_available_cb,
-    .notify_host_recv = host_recv_pkt_cb,
-};
 
 esp_err_t vhci_init() {
     // controller init
@@ -153,7 +144,7 @@ MP_DEFINE_CONST_OBJ_TYPE(
 // and the MicroPython object reference.
 
 STATIC const mp_rom_map_elem_t module_globals_table[] = {
-    { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_HCI_ESP32) },
+    { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_HCI_PicoW) },
     { MP_ROM_QSTR(MP_QSTR_HCI),    MP_ROM_PTR(&type_HCI) },
 };
 
@@ -168,4 +159,4 @@ const mp_obj_module_t example_user_cmodule = {
 
 // Register the module to make it available in Python.
 
-MP_REGISTER_MODULE(MP_QSTR_HCI_ESP32, example_user_cmodule);
+MP_REGISTER_MODULE(MP_QSTR_HCI_PicoW, example_user_cmodule);
