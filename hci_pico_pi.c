@@ -22,6 +22,7 @@ typedef struct _HCI_obj_t {
     mp_uint_t initialised;
 } HCI_obj_t;
 
+#define PRE_BUFFER_LEN 3
 
 STATIC mp_obj_t HCI_receive_raw(mp_obj_t self_in ) {
     int ret;
@@ -36,13 +37,15 @@ STATIC mp_obj_t HCI_receive_raw(mp_obj_t self_in ) {
     else 
         len = buf_len;
 
+    // Remove the padding
+    if (len > PRE_BUFFER_LEN) len -= PRE_BUFFER_LEN;
+
     buf_len = 0;
-    return mp_obj_new_bytes(buf, len);
+    return mp_obj_new_bytes(&buf[PRE_BUFFER_LEN], len);
 }
 
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(HCI_receive_raw_obj, HCI_receive_raw);
 
-#define PRE_BUFFER_LEN 3
 
 STATIC mp_obj_t HCI_send_raw(mp_obj_t self_in, mp_obj_t data_obj ) {
     mp_check_self(mp_obj_is_str_or_bytes(data_obj));
