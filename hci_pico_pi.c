@@ -2,55 +2,13 @@
 #include "py/objstr.h"
 #include "py/obj.h"
 
-#include "cyw43.h"
+#include "lib/cyw43-driver/src/cyw43.h"
+#define CYW43_ENABLE_BLUETOOTH 1
 
-// Data received callback
 
 #define BUF_MAX 500
 uint8_t buf[BUF_MAX];
-int buf_size;
-
-static int host_recv_pkt_cb(uint8_t *data, uint16_t len) {
-    //printf("PACKET RECEIVED SIZE %u\n", len);
-    // got some data to process
-    buf_size  = len;
-    if (buf_size > BUF_MAX) 
-        buf_size = BUF_MAX;
-
-    for (int i = 0; i < buf_size; i++) 
-        buf[i] = data[i];
-
-    return 0;
-}
-
-
-
-
-esp_err_t vhci_init() {
-    // controller init
-    // not handling error conditions yet...
-
-    esp_err_t ret;
-    esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
-    bt_cfg.mode = ESP_BT_MODE_BLE;
-    ret = esp_bt_controller_init(&bt_cfg);
-    //printf("Init returns %x\n", ret);
-
-    if (ret != ESP_OK) return ret;
-        
-    // controller enable
-    esp_bt_mode_t bt_mode = ESP_BT_MODE_BLE;
-    ret = esp_bt_controller_enable(bt_mode);
-    //printf("Enable returns %x\n", ret);
-    if (ret != ESP_OK) return ret;
-
-    esp_vhci_host_register_callback(&vhci_host_cb);
-
-    return ESP_OK;
-}
-
-
-
+uint32_t buf_len;
 
 
 
@@ -66,22 +24,32 @@ typedef struct _HCI_obj_t {
 
 
 STATIC mp_obj_t HCI_receive_raw(mp_obj_t self_in ) {
-    int ret_size = buf_size;
-    buf_size = 0;  // make the buffer empty now
-    return mp_obj_new_bytes(buf, ret_size);
+    int ret;
+    uint32_t len;
+
+    // if buffer is empty do next read, otherwise use data from last readable()
+
+    if (buf_len ==0) {
+        ret = cyw43_bluetooth_hci_read(buf, BUF_MAX, &len);
+        if (ret) len = 0;
+        buf_len = len;
+    }
+
+    return mp_obj_new_bytes(buf, buf_len);
 }
 
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(HCI_receive_raw_obj, HCI_receive_raw);
 
-
+#define PRE_BUFFER_LEN 3
 
 STATIC mp_obj_t HCI_send_raw(mp_obj_t self_in, mp_obj_t data_obj ) {
     mp_check_self(mp_obj_is_str_or_bytes(data_obj));
     GET_STR_DATA_LEN(data_obj, data, data_len);
 
-    esp_vhci_host_send_packet((uint8_t *) data, (uint16_t) data_len);
+    memcpy(&buf[PRE_BUFFER_LEN], data, data_len);
+    //buf[PRE_BUFFER_LEN - 1] = buf[PRE_BUFFER_LEN];
+    cyw43_bluetooth_hci_write(buf, data_len + PRE_BUFFER_LEN);
 
-    //printf("PACKET SENT SIZE %u\n", data_len);
     return mp_obj_new_bool(1);
 }
 
@@ -94,7 +62,15 @@ STATIC mp_obj_t HCI_readable(mp_obj_t self_in) {
     // type so we can read its attributes.
     // HCI_obj_t *self = MP_OBJ_TO_PTR(self_in);
 
-    return mp_obj_new_bool(buf_size > 0);
+    int ret;
+    uint32_t len;
+
+    ret = cyw43_bluetooth_hci_read(buf, BUF_MAX, &len);
+
+    if (ret) len = 0;
+    buf_len = len;
+
+    return mp_obj_new_bool(buf_len > 0);
 }
 
 STATIC MP_DEFINE_CONST_FUN_OBJ_1(HCI_readable_obj, HCI_readable);
@@ -105,17 +81,14 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_1(HCI_readable_obj, HCI_readable);
 // the user instantiates a HCI object.
 
 STATIC mp_obj_t HCI_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *args) {
-    esp_err_t err;
 
     // Allocates the new object and sets the type.
     HCI_obj_t *self = mp_obj_malloc(HCI_obj_t, type);
 
-    err = vhci_init();
+    cyw43_init(&cyw43_state);
+    buf_len = 0;
 
-    if (err == ESP_OK)
-        self->initialised = 1;
-    else
-        self->initialised = 0;
+    self->initialised = 1;
 
     return MP_OBJ_FROM_PTR(self);
 }
