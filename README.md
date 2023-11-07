@@ -25,7 +25,9 @@ b'\x04\x0e\x0c\x01\x01\x10\x00\x0b\x00\x00\x0b1\x01\x10#'
 
 # References   
 https://retrobrewcomputers.org/n8vem-pbwiki-archive/0/38301400/48860991/60678324/Part_E2_SDIO_Bluetooth_Type_A_Simplified_V1.00_060403TC.pdf
- 
+or download Part E2 Simplified from here:   
+https://www.sdcard.org/downloads/pls/ 
+
 # How to build in WSL
 ```
 sudo bash
