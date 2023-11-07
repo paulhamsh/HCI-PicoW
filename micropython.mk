@@ -1,7 +1,7 @@
 CEXAMPLE_MOD_DIR := $(USERMOD_DIR)
 
 # Add all C files to SRC_USERMOD.
-SRC_USERMOD += $(CEXAMPLE_MOD_DIR)/hci_pico_pi.c
+SRC_USERMOD += $(CEXAMPLE_MOD_DIR)/hci_pico_w.c
 
 # We can add our module folder to include paths if needed
 # This is not actually needed in this example.
