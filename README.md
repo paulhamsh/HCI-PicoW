@@ -39,13 +39,6 @@ cd mircopython
 
 make -C mpy-cross
 
-cd ports/rp2
-
-make BOARD=RPI_PICO_W submodules
-make BOARD=RPI_PICO_W clean
-make BOARD=RPI_PICO_W
-
-
 # Clone this repo into micropython codebase
 
 cd ~
@@ -55,8 +48,12 @@ cd HCI-PicoW
 mkdir ~/micropython/userc
 cp -r HCI-PicoW ~/micropython/userc
 
+# Build micropython with the user module
 cd ~/micropython/ports/rp2
-make USER_C_MODULES=~/micropython/userc/HCI-PicoW/micropython.cmake
+
+make BOARD=RPI_PICO_W submodules
+make BOARD=RPI_PICO_W clean
+make BOARD=RPI_PICO_W USER_C_MODULES=~/micropython/userc/HCI-PicoW/micropython.cmake
 ````
 
 Copy *.uf2 to somewhere where you can drag to the Pico W, like:
