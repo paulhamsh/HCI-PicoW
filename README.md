@@ -83,7 +83,7 @@ and the fun happens in here
 
 ## Why doesn't it crash if BTStack is not initialised?
 
-If we don't start BTSTack within Micropython, then why is it ok to allow the handler to run (see https://github.com/paulhamsh/HCI-PicoW-C/blob/main/README.md).
+If we don't start BTSTack within Micropython, then why is it ok to allow the handler to run (see https://github.com/paulhamsh/HCI-PicoW-C).
 
 The handler is here (in pico-sdk/src/rp2_common/pico_cyw43_driver/btstack_hci_transport_cyw43.c):
 
