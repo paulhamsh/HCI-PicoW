@@ -80,6 +80,8 @@ The driver for CYW43xxxx is here
 and the fun happens in here
 ```btstack_hci_transport_cyw43.c```
 
+This code dkes not use BTStack and this is achieved by not initialising it. This could cause concern because receipt of a packet normally calls a btstack handler but it checks first to see if BTStack is initialised so, in this case, the handler is not called. See next secion for an explanation.   
+
 
 ## Why doesn't it crash if BTStack is not initialised?
 
