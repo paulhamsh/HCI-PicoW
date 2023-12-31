@@ -28,6 +28,8 @@ https://retrobrewcomputers.org/n8vem-pbwiki-archive/0/38301400/48860991/60678324
 or download Part E2 Simplified from here:   
 https://www.sdcard.org/downloads/pls/ 
 
+They show the data format as a three byte length then the HCI data.   
+
 ## How to build in WSL
 ```
 sudo bash
